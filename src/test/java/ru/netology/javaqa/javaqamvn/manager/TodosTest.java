@@ -61,6 +61,56 @@ public class TodosTest {
     }
 
     @Test
+    public void shouldSearchIfQueryIsTwoTasks() {
+        SimpleTask simpleTask = new SimpleTask(5, "Разработка");
+
+        String[] subtasks = {"Позвонить", "Разработка", "Закрыть задачу"};
+        Epic epic = new Epic(55, subtasks);
+
+        Meeting meeting = new Meeting(
+                555,
+                "Выкатка 3й версии приложения",
+                "Приложение НетоБанка",
+                "Во вторник после обеда"
+        );
+
+        Todos todos = new Todos();
+
+        todos.add(simpleTask);
+        todos.add(epic);
+        todos.add(meeting);
+
+        Task[] expected = {simpleTask, epic};
+        Task[] actual = todos.search("Разработка");
+        assertArrayEquals(expected, actual);
+    }
+
+    @Test
+    public void shouldSearchIfQueryIsOneTask() {
+        SimpleTask simpleTask = new SimpleTask(5, "Позвонить родителям");
+
+        String[] subtasks = {"Позвонить", "Разработка", "Закрыть задачу"};
+        Epic epic = new Epic(55, subtasks);
+
+        Meeting meeting = new Meeting(
+                555,
+                "Выкатка 3й версии приложения",
+                "Приложение НетоБанка",
+                "Во вторник после обеда"
+        );
+
+        Todos todos = new Todos();
+
+        todos.add(simpleTask);
+        todos.add(epic);
+        todos.add(meeting);
+
+        Task[] expected = {epic};
+        Task[] actual = todos.search("Разработка");
+        assertArrayEquals(expected, actual);
+    }
+
+    @Test
     public void shouldNotSearchIfQueryIsNotThere() {
         SimpleTask simpleTask = new SimpleTask(5, "Разработка");
 
